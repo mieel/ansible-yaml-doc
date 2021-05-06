@@ -15,6 +15,7 @@ This main.yaml code
 
 ```
 # List of PowerShell Modules ensure  
+# keys: `name`,`repository`(optional)
 # https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html
 # > NOTE: add remarks here
 psmodules: []
@@ -25,6 +26,7 @@ is converted to this md code
 
 ```
   * List of PowerShell Modules ensure  
+    keys: `name`,`repository`(optional)  
     [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
     > NOTE: add remarks here
     ```yaml
@@ -36,6 +38,7 @@ is converted to this md code
 which renders like this
 
 * List of PowerShell Modules ensure  
+    keys: `name`,`repository`(optional)  
     [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
     > NOTE:  add remarks here
     ```yaml
