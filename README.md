@@ -16,7 +16,7 @@ This main.yaml code
 ```
 # List of PowerShell Modules ensure
 # https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html
-# > NOTE: when deploying offline modules make sure the .nupkg files are present in the files/psmodules/raw folder during the playbook
+# > NOTE: add remarks here
 psmodules: []
 psmodules_path: 'C:\Program Files\WindowsPowerShell\Modules'
 ```
@@ -26,7 +26,7 @@ is converted to this md code
 ```
   * List of PowerShell Modules ensure
     [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
-    > NOTE: when deploying offline modules make sure the .nupkg files are present in the files/psmodules/raw folder during the playbook
+    > NOTE: add remarks here
     ```yaml
     psmodules: []
     psmodules_path: 'C:\Program Files\WindowsPowerShell\Modules'
@@ -37,7 +37,7 @@ which renders like this
 
 * List of PowerShell Modules ensure
     [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
-    > NOTE: when deploying offline modules make sure the .nupkg files are present in the files/psmodules/raw folder during the playbook
+    > NOTE:  add remarks here
     ```yaml
     psmodules: []
     psmodules_path: 'C:\Program Files\WindowsPowerShell\Modules'
