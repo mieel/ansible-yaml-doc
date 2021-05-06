@@ -14,7 +14,7 @@ Raw links are formatted (line may only contain the http(s) link)
 This main.yaml code
 
 ```
-# List of PowerShell Modules ensure
+# List of PowerShell Modules ensure  
 # https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html
 # > NOTE: add remarks here
 psmodules: []
@@ -24,7 +24,7 @@ psmodules_path: 'C:\Program Files\WindowsPowerShell\Modules'
 is converted to this md code
 
 ```
-  * List of PowerShell Modules ensure
+  * List of PowerShell Modules ensure  
     [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
     > NOTE: add remarks here
     ```yaml
@@ -35,7 +35,7 @@ is converted to this md code
 
 which renders like this
 
-* List of PowerShell Modules ensure
+* List of PowerShell Modules ensure  
     [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
     > NOTE:  add remarks here
     ```yaml
