@@ -1,61 +1,74 @@
 """
-Minimal Python script to defaults/main.yml file
-to Markdown content.
+Python script to convert defaults/main.yml file to Markdown content
 
 Requirements:
-  write MD code in yaml comments (start with '# ')
+  write the MD code as yaml comments (start with '# ') above each variable
   any real yaml code is wrapped with ```yaml
-  raw links are converted, line has only contain the link
+  raw links are converted, line has to only contain the link, as such:
+    # https://mylink.com
 
-Example:
-
-This main.yaml code
-
-  # List powershell modules ensure (includes DSC)
-  # https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html
-  # > NOTE: when deploying offline modules make sure the .nupkg files are present in the files/psmodules/raw folder during the playbook
-  psmodules: []
-  psmodules_path: 'C:\Program Files\WindowsPowerShell\Modules'
-
-is converted to this md code
-  
-  * List powershell modules ensure (includes DSC)
-    [link](https://docs.ansible.com/ansible/latest/collections/community/windows/win_psmodule_module.html)
-    > NOTE: when deploying offline modules make sure the .nupkg files are present in the files/psmodules/raw folder during the playbook
-    ```yaml
-    psmodules: []
-    psmodules_path: 'C:\Program Files\WindowsPowerShell\Modules'
-    ```
-
+usage python3 yaml-doc.py output_file.md
 """
+
+import sys
+
+
 file = 'defaults/main.yml'
 content = open(file, 'r')
 lines = content.readlines()
 
+table_items = []
+attribute = ''
+description = ''
+link = ''
+
+content = ""
 current_line_type = 'comment'
 for line in lines:
-    print_line = line.strip()
+    print_line = line.replace('\n', '')
     if line.startswith('---'):
         continue
     last_line_type = current_line_type
+
+    if line.startswith('# http'):
+        print_line = f"[More info]({print_line})"
+
     if line.startswith('# '):
         current_line_type = 'comment'
         # remove comment markers to activate md format
         print_line = f"{print_line.replace('# ', '')}"
+        description = f"{description}<br/>{print_line}"
     else:
         current_line_type = 'code'
+        if print_line.strip() != '':
+            attribute += f"`{print_line}`<br/>"
     if line.startswith("\n"):
         current_line_type = 'break'
-    # add list marker when new variable begins
-    if current_line_type == 'comment' and last_line_type == 'break':
-        print(f"* {print_line}  ")
-        continue
-    # convert http links
-    if line.startswith('# http'):
-        print_line = f"[link]({print_line})"
-    # wrap code with ```
-    if current_line_type == 'code' and last_line_type == 'comment':
-        print("  ```yaml")
+
+    # append table after each break
     if current_line_type == 'break' and last_line_type == 'code':
-        print("  ```")
-    print(f"  {print_line}  ")
+        item = {
+            'Attribute': attribute,
+            'Description': description
+        }
+        table_items.append(item)
+
+        attribute = ''
+        description = ''
+        link = ''
+out_file = sys.argv[1]
+
+
+# print(table_items)
+table_content = ""
+table_header = ""
+table_header += "| Options and defaults | Description \n"
+table_header += "| :-------- | :---- | \n"
+table_content += table_header
+for t in table_items:
+    table_row = f"|{t['Attribute']}|{t['Description']}|\n"
+    table_content += table_row
+print(table_content)
+file = open(out_file, "w")
+file.write(table_content)
+file.close()
