@@ -68,6 +68,25 @@ table_content += table_header
 for t in table_items:
     table_row = f"|{t['Attribute']}|{t['Description']}|\n"
     table_content += table_row
+
+if len(sys.argv) == 2:
+    out_file = sys.argv[1]
+else:
+    print(table_content)
+    sys.exit()
+
+# REPLACE CONTENT IN FILE
+md = Path(out_file).read_text()
+temp =  table_content.replace('\\','backslash')
+
+sub = re.sub(r'<!-- BEGIN REPLACE -->(.|\n)*?<!-- END REPLACE -->',f"<!-- BEGIN REPLACE -->\n{temp}\n<!-- END REPLACE -->",md)
+
+new_content = (sub.replace('backslash','\\'))
+
+file = open(out_file, "w")
+file.write(new_content)
+file.close()
+
 print(table_content)
 file = open(out_file, "w")
 file.write(table_content)
