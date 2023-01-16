@@ -11,7 +11,8 @@ usage python3 yaml-doc.py output_file.md
 """
 
 import sys
-
+import pathlib
+import re
 
 file = 'defaults/main.yml'
 content = open(file, 'r')
@@ -75,19 +76,15 @@ else:
     print(table_content)
     sys.exit()
 
-# REPLACE CONTENT IN FILE
-md = Path(out_file).read_text()
-temp =  table_content.replace('\\','backslash')
-
-sub = re.sub(r'<!-- BEGIN REPLACE -->(.|\n)*?<!-- END REPLACE -->',f"<!-- BEGIN REPLACE -->\n{temp}\n<!-- END REPLACE -->",md)
-
-new_content = (sub.replace('backslash','\\'))
+content = pathlib.Path(out_file).read_text()
+# Escape the backslashes so that we can f string it
+escaped = table_content.replace('\\','backslash')
+# Add the tags back when replacing content
+temp =  f"<!-- BEGIN REPLACE -->\n{escaped}\n<!-- END REPLACE -->"
+sub = re.sub(r'<!-- BEGIN REPLACE -->(.|\n)*?<!-- END REPLACE -->', temp, content, count=1)
+# Unescaped the backslashess
+replaced_content = (sub.replace('backslash','\\'))
 
 file = open(out_file, "w")
-file.write(new_content)
-file.close()
-
-print(table_content)
-file = open(out_file, "w")
-file.write(table_content)
+file.write(replaced_content)
 file.close()
