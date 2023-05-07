@@ -11,4 +11,5 @@ runs:
   using: composite
   steps:
     - name: yaml-doc.py
+      shell: bash
       run: python3 ${{ github.action_path }}/ansible-yaml-doc.py ${{ inputs.dest }}
