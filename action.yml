@@ -1,0 +1,15 @@
+name: ansible-yaml-doc
+description: |
+  Generate .md content from the ansible role defaults main.yaml  file.
+  Make sure you use a checkout action first.
+inputs:
+  dest:
+    description: Destination .MD file to place the contents. Defaults to README.md
+    default: README.md
+
+runs:
+  using: composite
+  steps:
+    - name: yaml-doc.py
+      run: |
+        python3 ${{ github.action_path }}/ansible-yaml-doc.py ${{ inputs.dest }}
